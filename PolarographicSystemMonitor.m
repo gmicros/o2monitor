@@ -40,7 +40,8 @@ global ZeroPointCal;
 ZeroPointCal = 0;
 global SSizeMG; % for scaling the derivative? (gets divided by this)
 SSizeMG = 1.0;
-
+global sliderVal
+sliderVal = 0;
     handles.output = hObject;
     addpath('.\AdditionalFiles\');
     % identify all NI DAQ devices.
@@ -80,7 +81,6 @@ SSizeMG = 1.0;
     handles.IsMainRunning = 0;
     set(handles.mSampRate,'Visible','off');
     set(handles.textSampRate,'Visible','off');    
-    
     
     mainBuffer = NaN( ceil(handles.SamplingRate*handles.MaxRecord),5 );
     mainPosition = 1;
@@ -418,6 +418,11 @@ function timeSlider_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+global sliderVal
+val = get(hObject, 'Value');
+sliderVal = val;
+guidata(hObject, handles)
+
 
 
 % --- Executes during object creation, after setting all properties.
