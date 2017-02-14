@@ -5,7 +5,8 @@ function [  ] = UpdateGraph( handles, x, y, y2, y3 )
 % y - raw signal
 % y2 - filtered signal 
 % y3 - derivative signal
-
+global start;
+global stop;
 ax1=handles.primaryAxis;
 
 
@@ -27,7 +28,7 @@ if( handles.Raw==1 && handles.Filter==0 && handles.Derivative==0 )
     plot(ax1,x,y,'Color',[0.0000 0.4470 0.7410],'Linewidth',2);
     ylabel(ax1, 'O_2 Saturation');
     ylim(ax1, [myMinDisp myMaxDisp] );
-    xlim (ax1,[min(x),max(x)]);
+    xlim (ax1,[start, stop]);
     xlabel(ax1, 'Time (s)');
 end
 % only plotting filtered (black)

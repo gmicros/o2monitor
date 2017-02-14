@@ -6,6 +6,10 @@ global FilterOrder;
 global NumBuffers;
 global FileNameSave;
 global sliderVal;
+global DAQSampRate;
+global start;
+global stop;
+global sigLen;
 % now mainBuffer has [time,rawVoltages,rawScaled,filteredScaled,derivativeScaled]
 
 b = ones(FilterOrder,1)./FilterOrder;
@@ -39,13 +43,19 @@ else
 end
 
 % now mainBuffer has [time,rawVoltages,rawScaled,filteredScaled,derivativeScaled]
+x = mainBuffer(~isnan(mainBuffer(:,1)),1);
 y = mainBuffer(~isnan(mainBuffer(:,3)),3);
 y2= mainBuffer(~isnan(mainBuffer(:,4)),4);
 y3= mainBuffer(~isnan(mainBuffer(:,5)),5);
 
-sprintf('Slider val = %.2f', sliderVal)
 
-UpdateGraph( handles, mainBuffer(~isnan(mainBuffer(:,1)),1), y, y2, y3 );
+
+start  = sliderVal * sigLen / DAQSampRate;
+stop = sliderVal * sigLen / DAQSampRate + 1 ;
+
+% sprintf('Length of sig = %.2f', sigLen)
+
+UpdateGraph( handles, x, y, y2, y3 );
 
 
 % CEHCK IF OVERSHOOTING, ABOUT TO TIMEOUT!!!!

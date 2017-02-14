@@ -41,6 +41,7 @@ ZeroPointCal = 0;
 global SSizeMG; % for scaling the derivative? (gets divided by this)
 SSizeMG = 1.0;
 global sliderVal
+global sigLen;
 sliderVal = 0;
     handles.output = hObject;
     addpath('.\AdditionalFiles\');
@@ -419,8 +420,11 @@ function timeSlider_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 global sliderVal
+global sigLen;
+global mainBuffer;
 val = get(hObject, 'Value');
 sliderVal = val;
+sigLen = sum(~isnan(mainBuffer(:,1)));
 guidata(hObject, handles)
 
 
