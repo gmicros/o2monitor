@@ -7,6 +7,7 @@ global NumBuffers;
 global FileNameSave;
 global eventFlag;
 global commentFlag;
+global numEvents;
 % now mainBuffer has [time,rawVoltages,rawScaled,filteredScaled,derivativeScaled]
 
 b = ones(FilterOrder,1)./FilterOrder;
@@ -15,7 +16,8 @@ mainBuffer(mainPosition:(mainPosition+length(event.Data)-1),1:2)=[event.TimeStam
 
 mainBuffer(mainPosition:(mainPosition+length(event.Data)-1), 6) = zeros(100,1); 
 if eventFlag == 1 
-    mainBuffer(mainPosition:(mainPosition+length(event.Data)-1), 6) = ones(100,1); 
+    numEvents = numEvents + 1;
+    mainBuffer(mainPosition:(mainPosition+length(event.Data)-1), 6) = numEvents * ones(100,1); 
     eventFlag = 0; 
     commentFlag = 1;
 end

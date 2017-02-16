@@ -53,6 +53,8 @@ eventDescriptions = [];
 global commentFlag;
 commentFlag = 0;
 
+global numEvents;
+numEvents = 0;
 
 
     handles.output = hObject;
@@ -271,6 +273,16 @@ function pushStartStop_Callback(hObject, eventdata, handles)
         fileID = fopen(mFile,'a');
         fprintf(fileID,'%12.8f, %12.8f, %12.8f, %d\n',[mainBuffer(1:earlyStop,1)' ; mainBuffer(1:earlyStop,2)' ; mainBuffer(1:earlyStop,3)'; mainBuffer(1:earlyStop,6)' ]);
         fclose(fileID); 
+        
+        mFileName = handles.File;
+        mFile=[mFileName(1:end-3) 'comments' mFileName(end-3:end)];
+        fileID = fopen(mFile,'a');
+        global eventDescriptions;
+        for i = 1:size(eventDescriptions,1)
+            fprintf(fileID,'%s\n',char(eventDescriptions(1)));
+        end
+        fclose(fileID); 
+        
         % Force to rechoose filename
         %handles.File = [];
         %FileNameSave = handles.File;
