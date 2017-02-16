@@ -279,7 +279,7 @@ function pushStartStop_Callback(hObject, eventdata, handles)
         fileID = fopen(mFile,'a');
         global eventDescriptions;
         for i = 1:size(eventDescriptions,1)
-            fprintf(fileID,'%s\n',char(eventDescriptions(1)));
+            fprintf(fileID,'%s\n',char(eventDescriptions(i)));
         end
         fclose(fileID); 
         
