@@ -85,7 +85,8 @@ windowLength = 1000;
     handles.FilenameComplete = 0;
     handles.IsMainRunning = 0;
     set(handles.mSampRate,'Visible','off');
-    set(handles.textSampRate,'Visible','off');    
+    set(handles.textSampRate,'Visible','off'); 
+    set(handles.AxesMainLen, 'String', num2str(windowLength));
     
     mainBuffer = NaN( ceil(handles.SamplingRate*handles.MaxRecord),5 );
     mainPosition = 1;
@@ -448,3 +449,40 @@ function timeSlider_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
+
+
+% --- Executes on button press in smallerWin.
+function smallerWin_Callback(hObject, eventdata, handles)
+% hObject    handle to smallerWin (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global windowLength;
+if windowLength ~= 50 
+    windowLength = windowLength - 50;
+    set(handles.AxesMainLen, 'String', num2str(windowLength));
+end
+
+% --- Executes on button press in biggerWindow.
+function biggerWindow_Callback(hObject, eventdata, handles)
+% hObject    handle to biggerWindow (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global windowLength;
+windowLength = windowLength + 50;
+set(handles.AxesMainLen, 'String', num2str(windowLength));
+
+
+% --- Executes on button press in fullSignalCheck.
+function fullSignalCheck_Callback(hObject, eventdata, handles)
+% hObject    handle to fullSignalCheck (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of fullSignalCheck
+
+
+% --- Executes during object creation, after setting all properties.
+function fullSignalCheck_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to fullSignalCheck (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called

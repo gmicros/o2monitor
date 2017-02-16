@@ -9,20 +9,40 @@ global sliderVal;
 global sigLen;
 global DAQSampRate;
 global windowLength;
+global mainBuffer;
 
 ax1=handles.primaryAxis;
 
 
 start  = (sliderVal * sigLen)/ DAQSampRate;
 stop = (sliderVal * sigLen + windowLength) / DAQSampRate;
+startInd = floor(sliderVal * sigLen) + 1;
+stopInd = floor(sliderVal * sigLen + windowLength);
 
-if( stop > sigLen)
+if( or(stop > sigLen, eq(sliderVal,1)))
+    sigLen = sum(~isnan(mainBuffer(:,1)));
     start  = (sliderVal * sigLen - windowLength)/ DAQSampRate;
     stop = (sliderVal * sigLen) / DAQSampRate;
+    startInd = floor(sliderVal * sigLen - windowLength);
+    stopInd = floor(sliderVal * sigLen);
+    set(handles.scrollLocationText, 'String', strcat(num2str(start), ' sec'));
 end
 
-myMaxDisp = max([100 max(y2)]);
-myMinDisp = min([0 min(y2)]);
+if(stopInd > sum(~isnan(mainBuffer(:,1))))
+    stopInd = length(y2);
+    
+end
+
+
+if(get(handles.fullSignalCheck, 'Value') == 1)
+    start = min(x);
+    startInd = 1;
+    stop = max(x);
+    stopInd = length(x);
+end
+
+myMaxDisp = max([100 max(y2(startInd:stopInd)) + 100]);
+myMinDisp = min([0 min(y2(startInd:stopInd)) - 100]);
 
 
 co = [ 0.0000 0.4470 0.7410;
