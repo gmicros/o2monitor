@@ -520,6 +520,5 @@ global commentFlag;
 val = get(handles.EventDescription, 'String');
 if commentFlag == 1
     eventDescriptions = [eventDescriptions; {val}];
-    eventDescriptions
     commentFlag = 0;
 end
