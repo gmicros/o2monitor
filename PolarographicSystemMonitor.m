@@ -41,8 +41,12 @@ ZeroPointCal = 0;
 global SSizeMG; % for scaling the derivative? (gets divided by this)
 SSizeMG = 1.0;
 global sliderVal
-global sigLen;
 sliderVal = 0;
+global sigLen;
+
+global windowLength;
+windowLength = 1000;
+
     handles.output = hObject;
     addpath('.\AdditionalFiles\');
     % identify all NI DAQ devices.
@@ -365,7 +369,8 @@ function AxesMainLen_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'String') returns contents of AxesMainLen as text
 %        str2double(get(hObject,'String')) returns contents of AxesMainLen as a double
-
+global windowLength;
+windowLength = str2double(get(hObject,'String'));
 
 % --- Executes during object creation, after setting all properties.
 function AxesMainLen_CreateFcn(hObject, eventdata, handles)
@@ -378,6 +383,8 @@ function AxesMainLen_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+global windowLength;
+set(hObject, 'String', num2str(windowLength));
 
 
 % --- Executes on button press in AddEventButton.
@@ -406,7 +413,7 @@ function EventDescription_CreateFcn(hObject, eventdata, handles)
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
+    set(hObject,'BackgroundColor','white');    
 end
 
 
@@ -422,9 +429,11 @@ function timeSlider_Callback(hObject, eventdata, handles)
 global sliderVal
 global sigLen;
 global mainBuffer;
+global DAQSampRate;
 val = get(hObject, 'Value');
 sliderVal = val;
 sigLen = sum(~isnan(mainBuffer(:,1)));
+set(handles.scrollLocationText, 'String', strcat(num2str(sliderVal * sigLen / DAQSampRate), ' sec'));
 guidata(hObject, handles)
 
 
