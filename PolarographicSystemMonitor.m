@@ -43,9 +43,17 @@ SSizeMG = 1.0;
 global sliderVal
 sliderVal = 0;
 global sigLen;
-
+global eventFlag;
+eventFlag = 0;
 global windowLength;
 windowLength = 1000;
+global eventDescriptions;
+eventDescriptions = [];
+
+global commentFlag;
+commentFlag = 0;
+
+
 
     handles.output = hObject;
     addpath('.\AdditionalFiles\');
@@ -88,7 +96,7 @@ windowLength = 1000;
     set(handles.textSampRate,'Visible','off'); 
     set(handles.AxesMainLen, 'String', num2str(windowLength));
     
-    mainBuffer = NaN( ceil(handles.SamplingRate*handles.MaxRecord),5 );
+    mainBuffer = NaN( ceil(handles.SamplingRate*handles.MaxRecord),6 );
     mainPosition = 1;
 guidata(hObject, handles);
 
@@ -261,7 +269,7 @@ function pushStartStop_Callback(hObject, eventdata, handles)
         mFileName = handles.File;
         mFile=[mFileName(1:end-3) 'data' mFileName(end-3:end)];
         fileID = fopen(mFile,'a');
-        fprintf(fileID,'%12.8f, %12.8f, %12.8f\n',[mainBuffer(1:earlyStop,1)' ; mainBuffer(1:earlyStop,2)' ; mainBuffer(1:earlyStop,3)' ]);
+        fprintf(fileID,'%12.8f, %12.8f, %12.8f, %d\n',[mainBuffer(1:earlyStop,1)' ; mainBuffer(1:earlyStop,2)' ; mainBuffer(1:earlyStop,3)'; mainBuffer(1:earlyStop,6)' ]);
         fclose(fileID); 
         % Force to rechoose filename
         %handles.File = [];
@@ -393,8 +401,8 @@ function AddEventButton_Callback(hObject, eventdata, handles)
 % hObject    handle to AddEventButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-
+global eventFlag;
+eventFlag = 1;
 
 function EventDescription_Callback(hObject, eventdata, handles)
 % hObject    handle to EventDescription (see GCBO)
@@ -486,3 +494,20 @@ function fullSignalCheck_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to fullSignalCheck (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes on button press in saveEvent.
+function saveEvent_Callback(hObject, eventdata, handles)
+% hObject    handle to saveEvent (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global eventDescriptions;
+global numEvents;
+global numComments;
+global commentFlag;
+val = get(handles.EventDescription, 'String');
+if commentFlag == 1
+    eventDescriptions = [eventDescriptions; {val}];
+    eventDescriptions
+    commentFlag = 0;
+end

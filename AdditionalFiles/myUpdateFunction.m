@@ -5,11 +5,20 @@ global mainBuffer;
 global FilterOrder;
 global NumBuffers;
 global FileNameSave;
+global eventFlag;
+global commentFlag;
 % now mainBuffer has [time,rawVoltages,rawScaled,filteredScaled,derivativeScaled]
 
 b = ones(FilterOrder,1)./FilterOrder;
 filtBuff = NumBuffers*length(event.Data);
 mainBuffer(mainPosition:(mainPosition+length(event.Data)-1),1:2)=[event.TimeStamps event.Data];
+
+mainBuffer(mainPosition:(mainPosition+length(event.Data)-1), 6) = zeros(100,1); 
+if eventFlag == 1 
+    mainBuffer(mainPosition:(mainPosition+length(event.Data)-1), 6) = ones(100,1); 
+    eventFlag = 0; 
+    commentFlag = 1;
+end
 
 % early on in the run, use the whole data for filtering
 if( mainPosition <= filtBuff )   
