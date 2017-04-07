@@ -13,13 +13,12 @@ global mainBuffer;
 
 ax1=handles.primaryAxis;
 
-
 start  = (sliderVal * sigLen)/ DAQSampRate;
 stop = (sliderVal * sigLen + windowLength) / DAQSampRate;
 startInd = floor(sliderVal * sigLen) + 1;
 stopInd = floor(sliderVal * sigLen + windowLength);
 
-if( or(stop > sigLen, eq(sliderVal,1)))
+if( eq(sliderVal,1))
     sigLen = sum(~isnan(mainBuffer(:,1)));
     start  = (sliderVal * sigLen - windowLength)/ DAQSampRate;
     stop = (sliderVal * sigLen) / DAQSampRate;
@@ -41,8 +40,11 @@ if(get(handles.fullSignalCheck, 'Value') == 1)
     stopInd = length(x);
 end
 
-myMaxDisp = max([100 max(y2(startInd:stopInd)) + 100]);
-myMinDisp = min([0 min(y2(startInd:stopInd)) - 100]);
+%[startInd, stopInd]
+%[min(y2(startInd:stopInd)), max(y2(startInd:stopInd))]
+
+%myMaxDisp = max(y2(startInd:stopInd)) + 10;
+%myMinDisp = min(y2(startInd:stopInd)) - 10;
 
 
 co = [ 0.0000 0.4470 0.7410;
@@ -58,7 +60,7 @@ handles.Derivative = get( handles.checkboxSlope,'Value' );
 if( handles.Raw==1 && handles.Filter==0 && handles.Derivative==0 )
     plot(ax1,x,y,'Color',[0.0000 0.4470 0.7410],'Linewidth',2);
     ylabel(ax1, 'O_2 Saturation');
-    ylim(ax1, [myMinDisp myMaxDisp] );
+    %ylim(ax1, [myMinDisp myMaxDisp] );
     xlim (ax1,[start, stop]);
     xlabel(ax1, 'Time (s)');
 end
@@ -66,7 +68,7 @@ end
 if( handles.Raw==0 && handles.Filter==1 && handles.Derivative==0 )
     plot(ax1,x,y2,'k','Linewidth',2);
     ylabel(ax1, 'O_2 Saturation');
-    ylim(ax1, [myMinDisp myMaxDisp] );
+    %ylim(ax1, [myMinDisp myMaxDisp] );
     xlim (ax1,[start ,stop]);
     xlabel(ax1, 'Time (s)');
 end
@@ -76,7 +78,7 @@ if( handles.Raw==1 && handles.Filter==1 && handles.Derivative==0 )
     hh(1).Color = co(1,:);
     hh(2).Color = co(2,:);    
     ylabel(ax1, 'O_2 Saturation');
-    ylim(ax1, [myMinDisp myMaxDisp] );
+    %ylim(ax1, [myMinDisp myMaxDisp] );
     xlim (ax1,[start,stop]);
     xlabel(ax1, 'Time (s)');
 end
@@ -86,7 +88,7 @@ if( handles.Raw==1 && handles.Filter==0 && handles.Derivative==1 )
    [hAx,hLine1,hLine2] = plotyy(ax1,x,y,x,y3);
    xlim(hAx(1), [start, stop] );
    xlim(hAx(2), [start, stop] );
-   ylim(hAx(1), [myMinDisp, myMaxDisp] );
+   %ylim(hAx(1), [myMinDisp, myMaxDisp] );
    set(hLine1,'Linewidth',2);
    set(hLine1,'Color',co(1,:));
    set(hLine2,'Color',co(3,:));
@@ -103,7 +105,7 @@ if( handles.Raw==0 && handles.Filter==1 && handles.Derivative==1 )
    [hAx,hLine1,hLine2] = plotyy(ax1,x,y2,x,y3);
    xlim(hAx(1), [min(x),max(x)] );
    xlim(hAx(2), [min(x),max(x)] );
-   ylim(hAx(1), [myMinDisp, myMaxDisp] );
+   %ylim(hAx(1), [myMinDisp, myMaxDisp] );
    set(hLine1,'Linewidth',2);
    set(hLine1,'Color',co(2,:));
    set(hLine2,'Color',co(3,:));
@@ -120,7 +122,7 @@ if( handles.Raw==1 && handles.Filter==1 && handles.Derivative==1 )
     [hAx,hLine1,hLine2] = plotyy(ax1,x,y,x,y3);
     xlim(hAx(1), [min(x),max(x)] );
     xlim(hAx(2), [min(x),max(x)] );
-    ylim(hAx(1), [myMinDisp, myMaxDisp] );
+    %ylim(hAx(1), [myMinDisp, myMaxDisp] );
     set(hLine1,'Color',co(1,:));
     set(hLine1,'Linewidth',2);
     set(hLine2,'Color',co(3,:));
