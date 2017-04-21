@@ -69,7 +69,7 @@ handles.Derivative = get( handles.checkboxSlope,'Value' );
 if( handles.Raw==1 && handles.Filter==0 && handles.Derivative==0 )
     plot(ax1,x,y,'Color',[0.0000 0.4470 0.7410],'Linewidth',2);
     ylabel(ax1, 'O_2 Saturation');
-    %ylim(ax1, [myMinDisp myMaxDisp] );
+    ylim(ax1, [-10 110] );
     xlim (ax1,[start, stop]);
     xlabel(ax1, 'Time (s)');
 end
@@ -77,7 +77,7 @@ end
 if( handles.Raw==0 && handles.Filter==1 && handles.Derivative==0 )
     plot(ax1,x,y2,'k','Linewidth',2);
     ylabel(ax1, 'O_2 Saturation');
-    %ylim(ax1, [myMinDisp myMaxDisp] );
+    ylim(ax1, [-10 110] );
     xlim (ax1,[start ,stop]);
     xlabel(ax1, 'Time (s)');
 end
@@ -87,7 +87,7 @@ if( handles.Raw==1 && handles.Filter==1 && handles.Derivative==0 )
     hh(1).Color = co(1,:);
     hh(2).Color = co(2,:);    
     ylabel(ax1, 'O_2 Saturation');
-    %ylim(ax1, [myMinDisp myMaxDisp] );
+    ylim(ax1, [-10 110] );
     xlim (ax1,[start,stop]);
     xlabel(ax1, 'Time (s)');
 end
@@ -97,7 +97,7 @@ if( handles.Raw==1 && handles.Filter==0 && handles.Derivative==1 )
    [hAx,hLine1,hLine2] = plotyy(ax1,x,y,x,y3);
    xlim(hAx(1), [start, stop] );
    xlim(hAx(2), [start, stop] );
-   %ylim(hAx(1), [myMinDisp, myMaxDisp] );
+   ylim(ax1, [-10 110] );
    set(hLine1,'Linewidth',2);
    set(hLine1,'Color',co(1,:));
    set(hLine2,'Color',co(3,:));
@@ -105,6 +105,7 @@ if( handles.Raw==1 && handles.Filter==0 && handles.Derivative==1 )
    set(hAx(2),'YTickMode','auto','YTickLabelMode','auto','YColor',co(3,:));
    xlim (ax1,[min(x),max(x)]);
    xlabel(ax1, 'Time (s)');
+   
    ylabel(hAx(1),'O_2 Saturation');
    ylabel(hAx(2),'Change in Saturation');
 end
@@ -114,7 +115,7 @@ if( handles.Raw==0 && handles.Filter==1 && handles.Derivative==1 )
    [hAx,hLine1,hLine2] = plotyy(ax1,x,y2,x,y3);
    xlim(hAx(1), [min(x),max(x)] );
    xlim(hAx(2), [min(x),max(x)] );
-   %ylim(hAx(1), [myMinDisp, myMaxDisp] );
+   ylim(ax1, [-10 110] );
    set(hLine1,'Linewidth',2);
    set(hLine1,'Color',co(2,:));
    set(hLine2,'Color',co(3,:));
@@ -131,7 +132,7 @@ if( handles.Raw==1 && handles.Filter==1 && handles.Derivative==1 )
     [hAx,hLine1,hLine2] = plotyy(ax1,x,y,x,y3);
     xlim(hAx(1), [min(x),max(x)] );
     xlim(hAx(2), [min(x),max(x)] );
-    %ylim(hAx(1), [myMinDisp, myMaxDisp] );
+    ylim(ax1, [-10 110] );
     set(hLine1,'Color',co(1,:));
     set(hLine1,'Linewidth',2);
     set(hLine2,'Color',co(3,:));
