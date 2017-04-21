@@ -152,7 +152,7 @@ hold(ax1, 'on');
 if(isCommented)
     for i = 1:length(commentIntervals)
         plot(ax1, [x(commentIntervals(i)),x(commentIntervals(i))],...
-            [myMinDisp - 5, myMaxDisp + 5], 'g');
+            [myMinDisp, myMaxDisp], 'g');
     end
 end
 hold(ax1, 'off');
