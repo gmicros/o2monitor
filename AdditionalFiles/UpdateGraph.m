@@ -43,9 +43,18 @@ end
 %[startInd, stopInd]
 %[min(y2(startInd:stopInd)), max(y2(startInd:stopInd))]
 
-%myMaxDisp = max(y2(startInd:stopInd)) + 10;
-%myMinDisp = min(y2(startInd:stopInd)) - 10;
+myMaxDisp = max(y2(startInd:stopInd));
+myMinDisp = min(y2(startInd:stopInd));
 
+commentFlag = [];
+if (length(mainBuffer(:,1)) > 100)
+    commentFlag = mainBuffer(2:end,6) - mainBuffer(1:end-1,6);
+end
+
+isCommented = ~isempty(find(commentFlag',1));
+if( isCommented )
+    commentIntervals = find(commentFlag);
+end
 
 co = [ 0.0000 0.4470 0.7410;
        0.0000 0.0000 0.0000;
@@ -139,15 +148,14 @@ end
 
 
 
+hold(ax1, 'on');
+if(isCommented)
+    for i = 1:length(commentIntervals)
+        plot(ax1, [x(commentIntervals(i)),x(commentIntervals(i))],...
+            [myMinDisp - 5, myMaxDisp + 5], 'g');
+    end
+end
+hold(ax1, 'off');
 
-
-
-
-
-
-
-
-
-
-
-
+xlim (ax1,[start, stop]);
+xlabel(ax1, 'Time (s)');
