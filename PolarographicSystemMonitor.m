@@ -405,6 +405,8 @@ function AddEventButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 global eventFlag;
 eventFlag = 1;
+set(handles.saveEvent, 'Enable', 'on');
+set(handles.AddEventButton, 'Enable', 'off');
 
 function EventDescription_Callback(hObject, eventdata, handles)
 % hObject    handle to EventDescription (see GCBO)
@@ -511,4 +513,6 @@ val = get(handles.EventDescription, 'String');
 if commentFlag == 1
     eventDescriptions = [eventDescriptions; {val}];
     commentFlag = 0;
+    set(handles.AddEventButton, 'Enable', 'on');
+    set(handles.saveEvent, 'Enable', 'off');
 end
